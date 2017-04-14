@@ -13,9 +13,10 @@ def search():
     results = []
     results_num = 0
     for l in data:
-        if request.values['RSL_word'] in l:
+        if request.values['request'] in l:
             results.append(l)
-            results_num +=1
+            results_num += 1
+
     return render_template('search.html', results = results, results_num = results_num)
 
 @app.route('/signs')

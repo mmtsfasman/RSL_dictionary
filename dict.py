@@ -19,13 +19,13 @@ def search():
 
     return render_template('search.html', results = results, results_num = results_num)
 
-@app.route('/signs')
+@app.route('/word/<word>')
 def signpage():
     data = open('data.csv','r', encoding = 'UTF-8')
     for l in data:
         if request.values['RSL_word'] in l:
             results.append(l)
-    return render_template('search.html', results = results)
+    return render_template('search.html', results = results, word = id_word)
 
 
 if __name__ == '__main__':

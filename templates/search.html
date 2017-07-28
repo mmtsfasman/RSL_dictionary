@@ -19,7 +19,7 @@
             <div class="container">
                 <ul class="list-group">
                     {%for line in results%}
-                        <li href={{url_for('word', word={{word}} )}} class="list-group-item">{{line}} </li>
+                        <li href={{url_for('word', word=line[1])}} class="list-group-item">{{line}} </li>
                     {%endfor%}
                 </ul>
             </div>
@@ -29,7 +29,7 @@
                 <div class="container">
                     <p> Ничего не найдено :( </p> <!-- тут надо добавить "возможно, вы имели в виду.." но это потом. и я пока не очень понимаю как это делается.-->
                 </div>
-            {%endelse%}
+
         {%endif%}
 
     </body>

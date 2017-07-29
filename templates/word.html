@@ -18,67 +18,101 @@
     </head>
 
     <body>
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-3 sidenav" style="background-color:#66ccff;">
 
-    <form class="container">
-         <div class="media">
+        <div class="text-center">
+            <h2>РЖЯ - русский словарь</h2>
+            <p>Первый с поиском по жестам</p>
+            <br>
+        </div>
 
-            <div class="media-left">
-                <video controls>
-                    <source src={{ results['video'] }} type="video/mp4">
-                </video>
+        <form action={{url_for('search')}} method="get">
+            <h2> Поиск </h2>
+
+            <div class="input-group">
+                <input name="request" type="text" class="form-control" placeholder="слово или жест">
+                <span class="input-group-btn">
+                  <button name="submit" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                </span>
             </div>
 
-            <div class="media-body">
-                <form class="container">
-                    <h3> Запись в системе HamNoSys </h3>
-                        <p> {{ results['hamnosys'] }}</p>
+        </form>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
 
-                    <h3>  Перевод </h3>
-                        <p> {{ results['translation'] }}</p>
-                </form>
-            </div>
-         </div>
 
-         {%if results['etymology'] != ''%}
-            <form class="container">
-                <h3>  Этимология </h3>
-                    <p> {{ results['etymology'] }}</p>
-            </form>
-         {%endif%}
 
-         {%if results['morphology'] != ''%}
-            <form class="container">
-                <h3>  Составные части, морфология </h3>
-                    <p> {{ results['morphology'] }}</p>
-            </form>
-         {%endif%}
 
-        {%if results['example'] != ''%}
-            {%for ex in results['example']%}
+
+    <div class="col-sm-9">
+        <form class="container">
+             <div class="media">
+
                 <div class="media-left">
                     <video controls>
-                        <source src={{ results['example']['ex']['video'] }} type="video/mp4">
+                        <source src={{ results['video'] }} type="video/mp4">
                     </video>
                 </div>
 
                 <div class="media-body">
-                    {%if results['example']['ex']['glosses'] != ''%}
-                        <form class="container">
-                            <h3> Глоссы </h3>
-                            <p> {{ results['example']['ex']['glosses'] }}</p>
-                        </form>
-                    {%endif%}
+                    <form class="container">
+                        <h3> Запись в системе HamNoSys </h3>
+                            <p> {{ results['hamnosys'] }}</p>
 
-                    {%if results['example']['ex']['glosses'] != ''%}
-                        <form class="container">
-                            <h3>  Перевод </h3>
-                            <p> {{ results['example']['ex']['translation'] }}</p>
-                        </form>
-                    {%endif%}
+                        <h3>  Перевод </h3>
+                            <p> {{ results['translation'] }}</p>
+                    </form>
                 </div>
-            {%endfor%}
-        {%endif%}
-    </form>
+             </div>
+
+             {%if results['etymology'] != ''%}
+                <form class="container">
+                    <h3>  Этимология </h3>
+                        <p> {{ results['etymology'] }}</p>
+                </form>
+             {%endif%}
+
+             {%if results['morphology'] != ''%}
+                <form class="container">
+                    <h3>  Составные части, морфология </h3>
+                        <p> {{ results['morphology'] }}</p>
+                </form>
+             {%endif%}
+
+            {%if results['example'] != ''%}
+                {%for ex in results['example']%}
+                    <div class="media-left">
+                        <video controls>
+                            <source src={{ results['example']['ex']['video'] }} type="video/mp4">
+                        </video>
+                    </div>
+
+                    <div class="media-body">
+                        {%if results['example']['ex']['glosses'] != ''%}
+                            <form class="container">
+                                <h3> Глоссы </h3>
+                                <p> {{ results['example']['ex']['glosses'] }}</p>
+                            </form>
+                        {%endif%}
+
+                        {%if results['example']['ex']['glosses'] != ''%}
+                            <form class="container">
+                                <h3>  Перевод </h3>
+                                <p> {{ results['example']['ex']['translation'] }}</p>
+                            </form>
+                        {%endif%}
+                    </div>
+                {%endfor%}
+            {%endif%}
+        </form>
+            </div>
+
+        </div>
+    </div>
 
     </body>
 </html>

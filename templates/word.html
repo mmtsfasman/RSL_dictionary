@@ -9,7 +9,7 @@
         example_video #ссылка на видео с примером
         info_example #словарь, ключи - названия столбцов, значения - содержание ячейки про данный пример  -->
 
-        <title>{{ sign_id }}</title> <!-- тут надо понять, как удобнее называть страницу-->
+        <title>{{ results['translation'] }}</title> <!-- тут надо понять, как удобнее называть страницу-->
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,45 +18,67 @@
     </head>
 
     <body>
-     <div class="media">
 
-        <div class="media-left">
-            <video controls>
-                <source src={{ video }} type="video/mp4">
-            </video>
-        </div>
+    <form class="container">
+         <div class="media">
 
-        <div class="media-body">
-            <ul class="list-group">
-                {%for item in information%}
-                    <h2>{{item}}</h2>
-                    <p>{{information[item]}}</p>
-                {%endfor%}
-             </ul>
-        </div>
-     </div>
-
-    {%if example_video != None%}
-      <div class="media">
-          <div class="media-left">
-
+            <div class="media-left">
                 <video controls>
-                    <source src={{example_video}} type="video/mp4">
+                    <source src={{ results['video'] }} type="video/mp4">
                 </video>
-          </div>
+            </div>
 
-          <div class="media-body">
-              <h2>Пример употребления</h2>
-              <ul class="list-group">
-                  {%for item in info_example%}
-                    <h3>{{item}}</h3>
-                    <p>{{info_example[item]}}</p>
-                  {%endfor%}
-              </ul>
-          </div>
-      </div>
-    {%endif%}
+            <div class="media-body">
+                <form class="container">
+                    <h3> Запись в системе HamNoSys </h3>
+                        <p> {{ results['hamnosys'] }}</p>
 
+                    <h3>  Перевод </h3>
+                        <p> {{ results['translation'] }}</p>
+                </form>
+            </div>
+         </div>
+
+         {%if results['etymology'] != ''%}
+            <form class="container">
+                <h3>  Этимология </h3>
+                    <p> {{ results['etymology'] }}</p>
+            </form>
+         {%endif%}
+
+         {%if results['morphology'] != ''%}
+            <form class="container">
+                <h3>  Составные части, морфология </h3>
+                    <p> {{ results['morphology'] }}</p>
+            </form>
+         {%endif%}
+
+        {%if results['example'] != ''%}
+            {%for ex in results['example']%}
+                <div class="media-left">
+                    <video controls>
+                        <source src={{ results['example']['ex']['video'] }} type="video/mp4">
+                    </video>
+                </div>
+
+                <div class="media-body">
+                    {%if results['example']['ex']['glosses'] != ''%}
+                        <form class="container">
+                            <h3> Глоссы </h3>
+                            <p> {{ results['example']['ex']['glosses'] }}</p>
+                        </form>
+                    {%endif%}
+
+                    {%if results['example']['ex']['glosses'] != ''%}
+                        <form class="container">
+                            <h3>  Перевод </h3>
+                            <p> {{ results['example']['ex']['translation'] }}</p>
+                        </form>
+                    {%endif%}
+                </div>
+            {%endfor%}
+        {%endif%}
+    </form>
 
     </body>
 </html>

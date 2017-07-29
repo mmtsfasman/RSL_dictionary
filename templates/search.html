@@ -13,13 +13,30 @@
 
     <body>
 
-        <h1> Результаты поиска <span class="badge"> {{results_num}}</span> </h1>
+        <h2> Результаты поиска <span class="badge"> {{results_num}}</span> </h2>
 
         {%if results_num != 0%}
             <div class="container">
                 <ul class="list-group">
                     {%for line in results%}
-                        <li href={{url_for('word', word=line[1])}} class="list-group-item">{{line}} </li>
+                        <div class="media">
+
+                            <div class="media-left">
+                                <video controls>
+                                    <source src={{ line['video'] }} type="video/mp4">
+                                </video>
+                            </div>
+
+                            <div class="media-body">
+                                <ul class="list-group">
+                                    <h3>Перевод</h3>
+                                    <p>{{line['translation']}}</p>
+                                    <button onclick={{url_for('word', word=line['translation'])}} type="button" class="btn btn-info">перейти к статье </button>
+                                 </ul>
+                            </div>
+
+                        </div>
+
                     {%endfor%}
                 </ul>
             </div>

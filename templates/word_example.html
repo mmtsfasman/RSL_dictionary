@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+    <!-- РАБОТА С БД и CQL  найти откуда сюда высылаются переменные -
+        sign_id #как мы называем каждую страницу(адрес)
+        video #ссылка на видео
+        information #словарь для слова, где ключи - это название столбцов(перевод, этимология и т.п.), а значения - это информация в ячейке про данное слово
+        example_video #ссылка на видео с примером
+        info_example #словарь, ключи - названия столбцов, значения - содержание ячейки про данный пример  -->
+
+        <title>{{ results['translation'] }}</title> <!-- тут надо понять, как удобнее называть страницу-->
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href='style.css' >
+        <!-- link rel="stylesheet" href={{url_for('static', filename='css/bootstrap.css')}}  {{url_for('static',filename='bootstrap.css')}}-->
+    </head>
+
+    <body>
+        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <a class="navbar-brand" href="#"> <h2>РЖЯ - русский словарь</h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#"> На главную <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#"> Инфо </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#"> Разное </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">О разработчиках</a>
+              </li>
+            </ul>
+           
+           
+          </div>
+        </nav>
+        
+        
+        
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-2 sidenav bg-secondary">
+
+        <form action={{url_for('search')}} method="get">
+            <h3> Поиск </h3>
+
+            <div class="input-group">
+                <input name="request" type="text" class="form-control" placeholder="слово или жест">
+                <span class="input-group-btn">
+                  <button name="submit" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                </span>
+            </div>
+
+        </form>
+      
+    </div>
+
+
+
+    
+         <div class="col-4">
+               <div class='container'>
+                 <div class="media">
+                 
+                    <div class="embed-responsive embed-responsive-16by9">                   
+                        <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen>
+                            Любовь
+                        </iframe>
+                    </div>
+                  </div>
+                   
+              </div>
+            
+             
+             
+             <div class='container'>
+                <h5 align="right"> <a href="#collapse1" data-toggle="collapse"> Варианты произнесения </a> </h5>
+                 <div id="collapse1" class="collapse">
+                     <div class="card border-warning">
+                         <div class="card-body">
+                             <blockquote class="card-blockquote">
+
+                             
+                                 <div class="media">
+                 
+                                    <div class="embed-responsive embed-responsive-16by9">                   
+                                        <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen>
+                                   
+                                        </iframe>
+                                    </div>
+                                 
+                                 </div>
+                             </blockquote>
+                         </div>
+                     </div>
+                 </div>
+              </div>
+             
+             
+             <div class='container'>
+                 <div class="card border-warning">
+                     <div class="card-body">
+                         <blockquote class="card-blockquote">
+                             <h4> <a  href="#collapse1" data-toggle="collapse"> Выражения с жестом </a> </h4>
+                             
+                             
+                             <div id="collapse1" class="collapse">
+                             <div class="media">
+                 
+                                <div class="embed-responsive embed-responsive-16by9">                   
+                                    <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen>
+                                   
+                                        
+                                    </iframe>
+                                </div>
+                                 </div>
+                             </div>
+                         </blockquote>
+                     </div>
+                 </div>
+              </div>
+               
+        </div>
+         
+            <div class="col-5">   
+                <div class='container'> 
+                    
+                    
+                            
+                        <h4>Запись в системе HamNoSys </h4>
+                            <p></p>
+
+                        <h4>  Перевод </h4>
+                    <div class="card border-light">
+                          <div class="card-body">
+                                <blockquote class="card-blockquote">
+                     <p> 1.<i> глаг. </i> Коала </p> 
+                     <a  href="#collapse1" data-toggle="collapse"> Примеры</a>
+                    
+                     <div id="collapse1" class="collapse">
+                         <div class='container'>
+                             <div class="card border-info">
+                                 <div class="card-body">
+                                     <blockquote class="card-blockquote">
+
+                                         <div class="media">
+
+                                             <div class="embed-responsive embed-responsive-16by9">                   
+                                                 <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen>
+
+
+                                                 </iframe>
+                                             </div>
+                                         </div>
+                                     </blockquote>
+                                 </div>
+                             </div>
+                         </div>
+                     </div> 
+                                 
+                             
+                     <br><br><p> 2.1 <i> сущ. разг. </i> Еда  </p>
+                     
+                     
+                     <br><p> 2.2 <i> сущ. Новосиб. </i> Суп </p>
+                       </blockquote>
+                      </div>
+                     
+                        
+                                    
+                                    <h4><a  href="#collapse1" data-toggle="collapse"> Этимология </a></h4>
+                         <div id="collapse1" class="collapse">
+                             Panel Body
+                             Panel Footer
+                         </div>
+                         <br><br>
+
+                        <h4>  Составные части, морфология </h4>
+                            <p> </p>
+
+                      
+                     </div>
+
+          
+                
+                  </div>
+            </div>
+            
+            
+
+                
+     
+           
+         </div>
+        </div>
+   
+
+    </body>
+</html>

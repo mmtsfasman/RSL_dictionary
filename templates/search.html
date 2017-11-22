@@ -63,7 +63,7 @@
                                 <ul class="list-group">
                                     <h3>Перевод</h3>
                                     <p>{{line['translation']}}</p>
-                                    <button onclick={{url_for('word', word=line['translation'])}} type="button" class="btn btn-info">перейти к статье </button>
+                                   <a href ="{{url_for('word', word=line['translation'])}}" class="btn btn-info"> перейти к статье </a>
                                  </ul>
                             </div>
 

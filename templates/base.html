@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>{{title}}</title>
+		<style>body { background: pink; }</style>
+        	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+	</head>
+	<body>
+		<h1>{{title}}</h1>
+		<nav>
+			Where am I? {% block nav %} base {% endblock %}
+		</nav>
+		{% block main %}
+			This is the base.html
+		{% endblock %}
+	</body>
+</html>

@@ -9,12 +9,16 @@
         example_video #ссылка на видео с примером
         info_example #словарь, ключи - названия столбцов, значения - содержание ячейки про данный пример  -->
 
-        <title>{{ results['translation'] }}</title> <!-- тут надо понять, как удобнее называть страницу-->
-
+        <title>word</title> <!-- тут надо понять, как удобнее называть страницу-->
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href='style.css' >
-        <!-- link rel="stylesheet" href={{url_for('static', filename='css/bootstrap.css')}}  {{url_for('static',filename='bootstrap.css')}}-->
+       <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
+        
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+
     </head>
 
     <body>
@@ -72,14 +76,71 @@
     
          <div class="col-4">
                <div class='container'>
-                 <div class="media">
+                 <!--div class="media"-->
                  
-                    <div class="embed-responsive embed-responsive-16by9">                   
+                    <!-- div class="embed-responsive embed-responsive-16by9">                   
                         <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen>
                             Любовь
-                        </iframe>
-                    </div>
-                  </div>
+                        </iframe-->
+                        <div id="myCarousel" class="carousel" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                              <li data-target="#myCarousel" data-slide-to="1"></li>
+                              <li data-target="#myCarousel" data-slide-to="2"></li>
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+
+                              <div class="item active">
+                                <div class="embed-responsive embed-responsive-16by9">                   
+                                    <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen></iframe>
+                                </div>    
+                                <div class="carousel-caption">
+                                  <h3>Коала</h3>
+                                  <p><i>Новосиб.</i></p>
+                                </div>
+                              </div>
+                              
+
+                              <div class="item">
+                                <div class="embed-responsive embed-responsive-16by9">                   
+                                <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen></iframe>
+                                </div>
+                                <div class="carousel-caption">
+                                  <h3>Коала</h3>
+                                  <p><i>Московск.</i></p>
+                                </div>
+                              </div>
+
+                              <div class="item">
+                                <div class="embed-responsive embed-responsive-16by9">                   
+                                    <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen></iframe>
+                                </div>
+                                <div class="carousel-caption">
+                                  <h3>New York</h3>
+                                  <p>We love the Big Apple!</p>
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                              <span class="glyphicon glyphicon-chevron-left"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                              <span class="glyphicon glyphicon-chevron-right"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
+                        
+                        
+                        
+                
+                  <!--/div-->
                    
               </div>
             
@@ -88,7 +149,7 @@
              <div class='container'>
                 <h5 align="right"> <a href="#collapse1" data-toggle="collapse"> Варианты произнесения </a> </h5>
                  <div id="collapse1" class="collapse">
-                     <div class="card border-warning">
+                     <div class="card border-light">
                          <div class="card-body">
                              <blockquote class="card-blockquote">
 
@@ -113,10 +174,10 @@
                  <div class="card border-warning">
                      <div class="card-body">
                          <blockquote class="card-blockquote">
-                             <h4> <a  href="#collapse1" data-toggle="collapse"> Выражения с жестом </a> </h4>
+                             <h4> <a  href="#collapse5" data-toggle="collapse"> Выражения с жестом </a> </h4>
                              
                              
-                             <div id="collapse1" class="collapse">
+                             <div id="collapse5" class="collapse">
                              <div class="media">
                  
                                 <div class="embed-responsive embed-responsive-16by9">                   
@@ -134,22 +195,22 @@
                
         </div>
          
-            <div class="col-5">   
+            <div class="col-3">   
                 <div class='container'> 
                     
                     
                             
                         <h4>Запись в системе HamNoSys </h4>
-                            <p></p>
+                            <p class=hamnosys></p>
 
                         <h4>  Перевод </h4>
                     <div class="card border-light">
                           <div class="card-body">
                                 <blockquote class="card-blockquote">
                      <p> 1.<i> глаг. </i> Коала </p> 
-                     <a  href="#collapse1" data-toggle="collapse"> Примеры</a>
+                     <a  href="#collapse4" data-toggle="collapse"> <p align="center"> Примеры </p></a>
                     
-                     <div id="collapse1" class="collapse">
+                     <div id="collapse4" class="collapse">
                          <div class='container'>
                              <div class="card border-info">
                                  <div class="card-body">
@@ -170,20 +231,41 @@
                          </div>
                      </div> 
                                  
-                             
-                     <br><br><p> 2.1 <i> сущ. разг. </i> Еда  </p>
+                     <p> 2.1 <i> сущ. разг. </i> Еда  </p>
                      
-                     
-                     <br><p> 2.2 <i> сущ. Новосиб. </i> Суп </p>
+                        <a  href="#collapse2" data-toggle="collapse"> <p align="center">Формы </p></a>
+                    
+                     <div id="collapse2" class="collapse">
+                         
+                             <div class="card border-info">
+                                 <div class="card-body">
+                                     <blockquote class="card-blockquote">
+
+                                         <div class="media">
+
+                                             <div class="embed-responsive embed-responsive-16by9">                   
+                                                 <iframe  src="https://www.youtube.com/embed/K7aEVy4rMcE" allowfullscreen>
+
+
+                                                 </iframe>
+                                             </div>
+                                         </div>
+                                     </blockquote>
+                                
+                             </div>
+                         </div>
+                     </div> 
+                               
+                     <br><br><p> 2.2 <i> сущ. Новосиб. </i> Суп </p>
                        </blockquote>
                       </div>
                      
                         
                                     
-                                    <h4><a  href="#collapse1" data-toggle="collapse"> Этимология </a></h4>
-                         <div id="collapse1" class="collapse">
-                             Panel Body
-                             Panel Footer
+                                    <h4><a  href="#collapse3" data-toggle="collapse"> Этимология </a></h4>
+                       
+                         <div id="collapse3" class="collapse">
+                            Заимствование из французского <a href='#'>"Красотка"</a>
                          </div>
                          <br><br>
 

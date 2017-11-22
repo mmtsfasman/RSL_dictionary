@@ -34,6 +34,10 @@ def word(word):
                 word_info = row
     return render_template('word.html', results = word_info)
 
+@app.route('/test/<page>')
+def testpage(page):
+    return render_template(page)
+
 
 if __name__ == '__main__':
     app.run(debug = True)

@@ -325,7 +325,7 @@
                                                                   </div>
                                                                   <div class="carousel-caption">
                                                                       <h5>{{str(n_example) + '.' + ' '}}
-                                                                          {{example.glosses|join(' '| attribute = 'word')}}</h5>
+                                                                          {{example.glosses|join(' ', attribute = 'word')}}</h5>
                                                                       <h5>{{example.translation}}</h5>
                                                                       <a href ='{{example.source}}'>Источник примера</a>
 
@@ -385,8 +385,7 @@
 
                                                 <!-- Wrapper for slides -->
                                                 <div class="carousel-inner">
-                                                {%if lexical_unit.inflected_forms != 
-                                                    ]%} 
+                                                {%if lexical_unit.inflected_forms != []%} 
                                                 {%for n_form, form in enumerate(lexical_unit.inflected_forms)%} 
                                                       {%if n_form==1%}                                       
                                                           <div class="item active">
@@ -399,7 +398,7 @@
                                                               </div>
                                                               <div class="carousel-caption">
                                                                   {%if form.glosses != []%}
-                                                                      <h5>{{form.glosses|join(' '| attribute = 'word')}}</h5> 
+                                                                      <h5>{{form.glosses|join(' ', attribute = 'word')}}</h5> 
                                                                   {%endif%}
                                                                   {%if form.translation != '' %}
                                                                       <h5>{{form.translation}}</h5>
@@ -454,18 +453,20 @@
                          <div id="collapse3" class="collapse">
                             {%if entry.etymology.text != ''%}
                                 {{entry.etymology.text}}
-                            {%enif%} 
+                            {%endif%} 
                              
                             {%if entry.etymology.words_referred != []%} 
                             <p>см.
-                                {%for n_ref, ref in enumerate(entry.etymology.words_referred%)}
+                                {%for n_ref, ref in enumerate(entry.etymology.words_referred)%}
                                
                                     <a href='{{'/' + ref.entry}}'> {{ref.word}} 
-                                    {%if n_ref != len(entry.etymology.words_referred%)%}
+                                    {%if n_ref != len(entry.etymology.words_referred)%}
                                         {{', '}}
-                                    {%endif%} </a>
+                                    {%endif%}
+                                    </a>
                                 {%endfor%} 
                             </p>
+                             {%endif%}
                          </div>
                          
 

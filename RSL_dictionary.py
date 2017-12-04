@@ -19,14 +19,22 @@ def search():
     #text = request.form['text']
     with open('data.csv', encoding='utf-8') as csvfile:
         data = csv.DictReader(csvfile)
-        results = []
+        results = {}
         results_num = 0
-        for row in data:
+        for n, entry in enumerate(data):
             #??????
-            if row != None and request.values['request'] in row.homograph[0].lexical_unit[0].translation or request.values['request'] in row.sign[0].hamnosys:
-                results.append(row)
+            if entry != None and request.values['query'] in entry.homograph[0].lexical_unit[0].translation or request.values['query'] in ([sign.hamnosys for sign in entry.signs]):
+                results[n] = entry
                 results_num += 1
     return render_template('search.html', results = results, results_num = results_num)
+
+@app.route('/edit', methods=['post'])
+
+@app.route('/save', methods=['post'])
+def save():
+    
+    
+    return redirect
 
 @app.route('/word/<int:word_n>')
 def word(word_n):

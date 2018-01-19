@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% set title = word %}
+
+{% block head %}
+    {{ super() }}
+    <link rel='stylesheet' href='{{url_for("static", filename="jquery-ui/jquery-ui.css")}}'>
+    <script src='{{url_for("static", filename="jquery-ui/jquery-ui.js")}}'></script>
+    <script src='{{url_for("static", filename="repeatable-fields/repeatable-fields.js")}}'></script>
+    <script>jQuery(function() {
+        jQuery('.repeat').each(function() {
+            jQuery(this).repeatable_fields({'row_count_placeholder': '[[n]]'});
+        });
+    });</script>
+
+
+{% endblock %}
+
+
+{% block main %}
+
+
+<form method="POST" action = "{{url_for('edit')}}">
+    <div class="col-12">
+       <div class='container'>
+           <div class="card border-dark">
+               <div class="card-body">
+                   <blockquote class="card-blockquote">               
+                        <h4>Видеозаписи жестов</h4>
+                        {%for sign in entry.signs%} 
+                             <p class=hamnosys style="font-size:20px">                                       
+                                {{sign.hamnosys}}
+                             </p> 
+                             <p><i>{%for region in sign.labels.regions%}                                          
+
+                                        {{region}}
+
+                                    {%endfor%}
+                             </i></p>                     
+                       
+                       
+                       
+          <div class="repeat">
+            <table class="wrapper table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <td width="10%" colspan="4"><span class="add">Add</span></td>
+                    </tr>
+                </thead>
+                <tbody class="container">
+                    <tr class="row">
+                            {%for video in sign.videos%}
+                            <td width="10%"><span class="move">Move</span></td>
+
+                            <td width="10%">An Input Field</td>
+
+                            <td width="40%">
+                                {{video.csrf_token}} 
+                                {{video.filename}}
+                                {{video.url}}
+                                {{video.source}}   
+                             </td>    
+                           {%endfor%}
+                    
+                    </tr>
+                    <tr class="template row">
+                        <td width="10%"><span class="move">Move</span></td>
+
+                        <td width="10%">An Input Field</td>
+
+                        <td width="40%">
+                            <input type='hidden' name='signs-[[n]]-videos-[[n]]-csrf_token' value='{{entry.csrf_token.data}}' />
+                            <input type="text" name="signs-[[n]]-videos-[[n]]-filename" />
+                            <input type="text" name="signs-[[n]]-videos-[[n]]-url" />
+                            <input type="text" name="signs-[[n]]-videos-[[n]]-source" />
+                        </td>
+
+                        <td width="10%"><span class="remove">Remove</span></td>
+                    </tr>
+                </tbody>
+            </table>
+           </div>
+
+
+                       {%endfor%}
+                 </blockquote>         
+              </div>
+            </div>
+        </div>
+
+        <div class='container'>
+             <div class="card border-warning">
+                 <div class="card-body">                                                  
+                      <blockquote class="card-blockquote">
+
+
+                       <h4> <a  href="#collapse5" data-toggle="collapse"> Выражения с жестом </a> </h4>
+                       <div id="collapse5" class="collapse">
+
+                        {%for MWE in entry.MWEs%} 
+                            {{MWE.video.url}}"
+                                  {%for gloss in glosses%}
+                                           {{gloss.word}}
+                                           {{gloss.url}}
+                                  {%endfor%}
+                                  {{MWE.MWE_type}}
+                                  {{MWE.translation}}
+                                  {{lexical_unit.labels.domain}}
+                                  <i> {{lexical_unit.labels.style}} </i> 
+                                  {%for region in lexical_unit.labels.regions%}
+                                         {{region}}
+                                  {%endfor%}
+                        {%endfor%}
+                       </div> 
+
+
+
+                 </blockquote>
+             </div>
+         </div>
+      </div> 
+
+
+ 
+    <div class='container'>         
+        <div class="card border-search">
+          <div class="card-body">
+                <blockquote class="card-blockquote">
+                    <h4>  Перевод </h4>
+
+        {%for homograph in entry.homographs%}
+
+            {%for lexical_unit in homograph.lexical_units%}
+
+                  {%for pos in lexical_unit.part_of_speech%}
+                       <h6 class='uppercase'>
+                      {{pos}}
+                       </h6>
+                  {%endfor%}
+
+                  <i> {{lexical_unit.labels.domain}} </i> 
+
+                  <i> {{lexical_unit.labels.style}} </i> 
+
+
+                  {%for region in lexical_unit.labels.regions%}
+                                 {{region}}
+                  {%endfor%}                  
+
+
+                  {{lexical_unit.translation}} 
+                                      
+                 <a  href="#collapse4"> <p align="center"> Примеры </p></a>
+
+                 <div id="collapse4" class="collapse">
+                     <div class='container'>
+                         <div class="card border-info">
+                             <div class="card-body">
+                                  <blockquote class="card-blockquote">
+
+                                            <div class="carousel-inner">
+
+                                              {%for example in entry.examples%}
+                                                    <div class="embed-responsive embed-responsive-16by9">                   
+                                                        <iframe  src="{{example.video_url}}" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="carousel-caption">
+                                                      <a>Глоссы примера</a>
+                                                      {%for gloss in glosses%}
+                                                               {{gloss.word}}
+                                                               {{gloss.entry}}
+                                                      {%endfor%}  
+                                                      <h5>{{example.glosses|join(' ', attribute = 'word')}}</h5>
+                                                      <a>Перевод примера</a>{{example.translation}}
+                                                      <a>Источник примера</a>{{example.source}}
+                                                    </div>
+
+                                              {%endfor%}
+                                           </div>
+
+                                 </blockquote>
+                             </div>
+                         </div>
+                     </div>
+                 </div> 
+         
+
+                             
+           
+                <div class="container">
+                     <div class="card border-info">
+                         <div class="card-body">
+                             <blockquote class="card-blockquote">
+                                  <a  href="#collapse2" data-toggle="collapse"> <p align="center">Формы жеста </p></a>
+
+                                         <div id="collapse2" class="collapse">
+
+                                    {%for form in lexical_unit.inflected_forms%}
+                                         {{form.video_url}}
+                                          {{form.glosses|join(' ', attribute = 'word')}}
+                                          {{form.translation}}
+                                         {{form.grammatical_label}}
+                                    {%endfor%}
+                                          </div>   
+                                           
+                              </blockquote>
+                         </div>
+                     </div>
+                 </div>
+                
+                    {%endfor%}
+                 {%endfor%}
+                </blockquote>
+             </div>
+         </div>
+     </div>
+     
+<div class="container">
+<div class="card border-dark">
+               <div class="card-body">
+                   <blockquote class="card-blockquote">     
+    <h4><a  href="#collapse3" data-toggle="collapse"> Этимология </a></h4>
+
+     <div id="collapse3" class="collapse">
+            {{entry.etymology.text}}
+
+          <div class="repeat">
+            <table class="wrapper" width="100%">
+                <thead>
+                    <tr>
+                        <td width="10%" colspan="4"><span class="add">Add</span></td>
+                    </tr>
+                </thead>
+                <tbody class="container">
+                    <tr class="row">
+
+
+                        {% for ref in entry.etymology.words_referred %}
+                            <td width="10%"><span class="move">Move</span></td>
+
+                            <td width="10%">An Input Field</td>
+
+                            <td width="40%">
+                            {{ref.csrf_token}} 
+                            {{ref.word}}
+                            {{ref.entry}}
+                            </td>    
+
+                        {% endfor %}
+
+
+                    
+                    </tr>
+                    <tr class="template row">
+                        <td width="10%"><span class="move">Move</span></td>
+
+                        <td width="10%">An Input Field</td>
+
+                        <td width="40%">
+                            <input type='hidden' name='entry-etymology-words_referred-[[n]]-csrf_token' value='{{entry.csrf_token.data}}' />
+                            <input type="text" name="entry-etymology-words_referred-[[n]]-word" />
+                            <input type="text" name="entry-etymology-words_referred-[[n]]-entry" />
+                        </td>
+
+                        <td width="10%"><span class="remove">Remove</span></td>
+                    </tr>
+                </tbody>
+            </table>
+           </div>
+         </div>
+        </blockquote>
+     </div>
+  </div>
+</div>
+            
+        
+    
+    </div>   
+</form>
+
+
+{%endblock%}
+                             
+                             

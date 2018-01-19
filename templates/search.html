@@ -1,126 +1,131 @@
 {% extends "base.html" %}
 
 {% set title = "Результаты поиска"%}   
+
 {%block main%}
-    
-    {%if results_num != 0%}
 
-  
-        <div class="container"> 
-            <h2> Результаты поиска '{{query}}' <span class="btn badge-light"> {{results_num}} </span>   </h2>
-         
-            <ul class="list-group">
-            <div class="col-md-6">
-            {%for n_entry in results%}
+<div class="container">
+ <h2> Результаты поиска по запросу <hamnosys>  '{{query}}'</hamnosys> <span class="btn badge-light"> {{results_num}} </span> </h2>   
+{%if results_num != 0%}
+<div class="col-md-6">
+    {%for n_entry in results%}
+        <div class="media">
+        <div class="card border-warning">
+           <div class="card-body">                                                  
+               <blockquote class="card-blockquote"> 
                  
-                    <div class="media">
-                       <div class="card border-warning">
-                           <div class="card-body">                                                  
-                               <blockquote class="card-blockquote">                                        
+                   <div class="media-left">
+                        <div id="myCarousel" class="carousel" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                {% set n_overall = 0%}
+                                {%for sign in results[n_entry].signs%}
+                                    {% set n_sign = loop.index%}
+                                    {%for video in sign.videos%}
+                                      {% set n_video = loop.index%}
+                                      {%  set n_overall = (n_overall + 1)%}
+                                      {%if n_video==1  and n_sign==1%}                                       
+                                          <li data-target="#myCarousel" data-slide-to="{{n_overall}}" class="active"></li>
+                                      {%else%}
+                                          <li data-target="#myCarousel" data-slide-to="{{n_overall}}"></li>
 
-                                    <div id="myCarousel" class="carousel" data-ride="carousel">
-                                        <!-- Indicators -->
-                                        <ol class="carousel-indicators">
-                                            {% set n_overall = 0%}
-                                            {%for sign in results[n_entry].signs%}
-                                                {% set n_sign = loop.index%}
-                                                {%for video in sign.videos%}
-                                                  {% set n_video = loop.index%}
-                                                  {%  set n_overall = (n_overall + 1)%}
-                                                  {%if n_video==1  and n_sign==1%}                                       
-                                                      <li data-target="#myCarousel" data-slide-to="{{n_overall}}" class="active"></li>
-                                                  {%else%}
-                                                      <li data-target="#myCarousel" data-slide-to="{{n_overall}}"></li>
+                                      {%endif%}
+                                    {%endfor%}
+                                {%endfor%}                          
 
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+
+                                {%for sign in results[n_entry].signs%} 
+                                    {% set n_sign = loop.index%}
+                                    {%for video in sign.videos%}
+                                        {% set n_video = loop.index%}
+
+                                      {%if n_video==1  and n_sign==1%}                                       
+                                          <div class="item active">
+                                       {%else%}
+                                          <div class="item">
+                                       {%endif%}
+                                          <div class="embed-responsive embed-responsive-16by9">                   
+                                              <iframe  src="{{url_for('static', filename = ('videos/'+ video.filename))}}" allowfullscreen></iframe>
+                                          </div>
+                                          <div class="carousel-caption">
+                                              <p class=hamnosys style="font-size:20px"> 
+                                                  {%if results[n_entry].sign|length > 1%}
+                                                      {{n_sign ~ '.'}}
                                                   {%endif%}
-                                                {%endfor%}
-                                            {%endfor%}                          
-
-                                        </ol>
-
-                                        <!-- Wrapper for slides -->
-                                        <div class="carousel-inner">
-
-                                            {%for sign in results[n_entry].signs%} 
-                                                {% set n_sign = loop.index%}
-                                                {%for video in sign.videos%}
-                                                    {% set n_video = loop.index%}
-
-                                                  {%if n_video==1  and n_sign==1%}                                       
-                                                      <div class="item active">
-                                                   {%else%}
-                                                      <div class="item">
-                                                   {%endif%}
-                                                      <div class="embed-responsive embed-responsive-16by9">                   
-                                                          <iframe  src="{{video.url}}" allowfullscreen></iframe>
-                                                      </div>
-                                                      <div class="carousel-caption">
-                                                          <p class=hamnosys style="font-size:20px"> 
-                                                              {%if results[n_entry].sign|length > 1%}
-                                                                  {{n_sign ~ '.'}}
-                                                              {%endif%}
-                                                              {%if sign.videos|length > 1%}
-                                                                  {{n_video ~ '  '}}
-                                                              {%endif%}
-                                                              {{sign.hamnosys}}</p>
+                                                  {%if sign.videos|length > 1%}
+                                                      {{n_video ~ '  '}}
+                                                  {%endif%}
+                                                  {{sign.hamnosys}}</p>
 
 
-                                                          {%if sign.labels.region|length != 0%} 
-                                                          <p><i>{%for region in sign.labels.regions%}
-                                                                      {% set n_label = loop.index%}
-                                                                      {%if n_label == sign.labels.regions|length%}
-                                                                              {{region}}
-                                                                      {%else%}
-                                                                              {{region + ', '}}
-                                                                      {%endif%}
-                                                                {%endfor%}
-                                                          </i></p>
-                                                           {%endif%}
+                                              {%if sign.labels.region|length != 0%} 
+                                              <p><i>{%for region in sign.labels.regions%}
+                                                          {% set n_label = loop.index%}
+                                                          {%if n_label == sign.labels.regions|length%}
+                                                                  {{region}}
+                                                          {%else%}
+                                                                  {{region + ', '}}
+                                                          {%endif%}
+                                                    {%endfor%}
+                                              </i></p>
+                                               {%endif%}
 
 
-                                                        </div>
-                                                      </div>
+                                            </div>
+                                          </div>
 
-                                                {%endfor%}
-                                            {%endfor%}
-                                        </div>
-
-
-                        <!-- Left and right controls -->
-                                        {%if n_overall > 1%}    
-                                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                              <span class="glyphicon glyphicon-chevron-left"></span>
-                                              <span class="sr-only">Previous</span>
-                                            </a>
-                                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                                              <span class="glyphicon glyphicon-chevron-right"></span>
-                                              <span class="sr-only">Next</span>
-                                            </a>
-                                        {%endif%}
+                                    {%endfor%}
+                                {%endfor%}
                             </div>
-                          
-                            
-                          <div class="media-body">
-                                <ul class="list-group">
-                                   <a href ="{{url_for('word', word_n=n_entry)}}" class="btn btn-info"> перейти к статье </a>
-                                 </ul>
-                          </div>
-                       </blockquote>
-                    </div>
-                   </div>
-                 </div>
-                  
-            {%endfor%}
-            </div>                          
-        </ul>
-    </div>
 
 
-    {%else%}
-        <div class="container">
-            <p> Ничего не найдено :( </p> 
-            <!-- тут надо добавить "возможно, вы имели в виду.." но это потом. и я пока не очень понимаю как это делается.-->
-        </div>
+            <!-- Left and right controls -->
+                            {%if n_overall > 1%}    
+                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                  <span class="glyphicon glyphicon-chevron-left"></span>
+                                  <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                  <span class="glyphicon glyphicon-chevron-right"></span>
+                                  <span class="sr-only">Next</span>
+                                </a>
+                            {%endif%}
+                      </div>
 
-   {%endif%}
+
+
+                  <div class="media-body">
+                        <a href ="{{url_for('word', word_n=n_entry)}}"> перейти к статье </a>
+                        <h5>Перевод</h5>
+
+
+                            {%for homograph in results[n_entry].homographs%}
+                                {% set n_homograph = loop.index%}
+                                {%for lexical_unit in homograph.lexical_units%}
+                                    {% set n_lu = loop.index%}
+                                    {{n_homograph ~ '.' ~ n_lu}}
+                                    {{lexical_unit.translation}} <br> 
+                                {%endfor%}
+                            {%endfor%}
+
+                  </div> 
+                
+              </div> 
+             </blockquote>
+              </div>
+           </div>
+             </div>
+         {%endfor%}                          
+</div>
+
+{%else%}
+   <p> Ничего не найдено :( </p> 
+   <!-- тут надо добавить "возможно, вы имели в виду.." но это потом. и я пока не очень понимаю как это делается.-->
+{%endif%}
+            
+</div>
 {%endblock%}

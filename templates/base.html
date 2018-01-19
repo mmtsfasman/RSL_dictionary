@@ -1,11 +1,16 @@
 <html lang="en">
     <head>
         <title>{{title}}</title>
-        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block head %}
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
         <script src="{{url_for('static',filename='jquery.min.js')}}"></script>
         <script src="{{url_for('static',filename='bootstrap.min.js')}}"></script>
+        {% endblock %}
+        <style>
+        input[type='text'] { font-family: hamnosys; }
+        </style>
     </head>
 
     <body>
@@ -36,41 +41,40 @@
   
            
     <div class="container-fluid">
-        <div class="row content">        
-        
-               
+        <div class="row content"> 
+            <div class="col-sm-2 sidenav bg-secondary">
 
-                <div class="col-sm-2 sidenav bg-secondary">
+                <form action={{url_for('search')}} method="get">
+                    <h3> Поиск </h3>
 
-                    <form action={{url_for('search')}} method="get">
-                        <h3> Поиск </h3>
-
-                        <div class="input-group">
+                    <div class="input-group">                       
                             <input name="query" type="text" class="form-control" placeholder="слово или жест">
-                            <span class="input-group-btn">
-                              <button name="submit" class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search"></span>
-                              </button>
-                            </span>
-                        </div>
-                    </form>
-
-                </div>
+                        <span class="input-group-btn">
+                          <button name="submit" class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                          </button>
+                        </span>
+                    </div>
+                    
+                     <a  href="#collapse5" data-toggle="collapse" style='color:grey;'> <p>HamNoSys keyboard</p></a> 
+                     <div id="collapse5" class="collapse">                         
+                        <iframe src='http://www.sign-lang.uni-hamburg.de/hamnosys/input/' width='100%' height='25%'></iframe>
+                        <p>Введите компонент жеста, скопируйте полученное в строку поиска</p>
+                     </div>
+                </form>
+             </div>          
+ 
+       
           
                     {% block main %}
 
                     {% endblock %}
-                   
-                 </div>
-                </div>
-            </div>
-        </div>
+                 
+               </div>
+           </div>
         {%endblock%}
                    
 
         
-
-        </div>
-        </div>
 	</body>
 </html>

@@ -25,10 +25,11 @@ class etymology(struct):
 
 
 class video(struct):
-    def __init__(self, url='', source=''):
+    def __init__(self, url='', source='', filename = ''):
             self.url = url
             self.source = source
-
+            self.filename = filename
+            
    
 
     

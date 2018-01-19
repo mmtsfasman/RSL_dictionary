@@ -11,10 +11,20 @@
 <form class="container" action={{url_for('search')}} method="get">
     <h2> Поиск </h2> <br>
     <div class="form-group">
-        <input  name="query" type="text" class="form-control" placeholder="слово или жест" id="search" >
+        <input  name="query" type="text" class="form-control" placeholder="слово или жест" id="search">
     </div>
+    
     <button name="submit" type="submit" class="btn btn-success"> Искать </button>
+     <a  href="#collapse5" data-toggle="collapse"> <p>HamNoSys keyboard</p></a> 
+     <div id="collapse5" class="collapse"> 
+        <p>Введите компонент жеста, скопируйте полученное в строку поиска</p>
+        <iframe src='http://www.sign-lang.uni-hamburg.de/hamnosys/input/' width='100%' height='35%'></iframe>
+     </div>
+         
+    
 </form>
+
+
 
 {%endblock%} 
 

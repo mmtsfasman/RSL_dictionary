@@ -1,451 +1,437 @@
 {% extends "base.html" %}
 
-{% set title = word %}
+{% set title = entry.homographs[0].lexical_units[0].translation %}
 
-         {% block main %}                      
-         <div class="col-4">
-               <div class='container'>
+{% block main %}                      
+<div class="col-4">
+   <div class='container'>
 
-                        <div id="myCarousel" class="carousel" data-ride="carousel">
-                            <!-- Indicators -->
-                            <ol class="carousel-indicators">
-                                {% set n_overall = 0%}
-                                
-                                {%for sign in entry.signs%}
-                                    {% set n_sign = loop.index%}
-                                    {%for video in sign.videos%}
-                                      {% set n_video = loop.index%}
-                                      {%  set n_overall = (n_overall + 1)%}
-                                      {%if n_video==1  and n_sign==1%}                                       
-                                          <li data-target="#myCarousel" data-slide-to="{{n_overall}}" class="active"></li>
-                                      {%else%}
-                                          <li data-target="#myCarousel" data-slide-to="{{n_overall}}"></li>
-                                            
+            <div id="myCarousel" class="carousel" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    {% set n_overall = 0%}
+
+                    {%for sign in entry.signs%}
+                        {% set n_sign = loop.index%}
+                        {%for video in sign.videos%}
+                          {% set n_video = loop.index%}
+                          {%  set n_overall = (n_overall + 1)%}
+                          {%if n_video==1  and n_sign==1%}                                       
+                              <li data-target="#myCarousel" data-slide-to="{{n_overall}}" class="active"></li>
+                          {%else%}
+                              <li data-target="#myCarousel" data-slide-to="{{n_overall}}"></li>
+
+                          {%endif%}
+                        {%endfor%}
+                    {%endfor%}                          
+
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+
+                    {%for sign in entry.signs%} 
+                        {% set n_sign = loop.index%}
+                        {%for video in sign.videos%}
+                            {% set n_video = loop.index%}
+
+                          {%if n_video==1  and n_sign==1%}                                       
+                              <div class="item active">
+                           {%else%}
+                              <div class="item">
+                           {%endif%}
+                              <div class="embed-responsive embed-responsive-16by9">                   
+                                  <iframe  src="{{url_for('static', filename = ('videos/'+ video.filename))}}" allowfullscreen></iframe>
+                              </div>
+                              <div class="carousel-caption">
+                                  <p class=hamnosys style="font-size:20px"> 
+                                      {%if entry.sign|length > 1%}
+                                          {{n_sign}}.
                                       {%endif%}
-                                    {%endfor%}
-                                {%endfor%}                          
-                            
-                            </ol>
-                            
-                            <!-- Wrapper for slides -->
-                            <div class="carousel-inner">
-                                                            
-                                {%for sign in entry.signs%} 
-                                    {% set n_sign = loop.index%}
-                                    {%for video in sign.videos%}
-                                        {% set n_video = loop.index%}
-                                      
-                                      {%if n_video==1  and n_sign==1%}                                       
-                                          <div class="item active">
-                                       {%else%}
-                                          <div class="item">
-                                       {%endif%}
-                                          <div class="embed-responsive embed-responsive-16by9">                   
-                                              <iframe  src="{{video.url}}" allowfullscreen></iframe>
-                                          </div>
-                                          <div class="carousel-caption">
-                                              <p class=hamnosys style="font-size:20px"> 
-                                                  {%if entry.sign|length > 1%}
-                                                      {{n_sign}}.
-                                                  {%endif%}
-                                                  {%if sign.videos|length > 1%}
-                                                      {{n_video}}
-                                                  {%endif%}
-                                                  {{sign.hamnosys}}</p> <!-- <input value='{{sign.hamnosys}}' placeholder='hamnosys'> -->
-                                              
-                                                
-                                              {%if sign.labels.region|length != 0%} 
-                                              <p><i>{%for region in sign.labels.regions%}
-                                                          {% set n_label = loop.index%}
-                                                          {%if n_label == sign.labels.regions|length%}
-                                                                  {{region}}
-                                                          {%else%}
-                                                                  {{region + ', '}}
-                                                          {%endif%}
-                                                    {%endfor%}
-                                              </i></p>
-                                               {%endif%}
-                                                                                                  
-                                         
-                                            </div>
-                                          </div>
-                                      
-                                    {%endfor%}
-                                {%endfor%}
-                            </div>
-                            
+                                      {%if sign.videos|length > 1%}
+                                          {{n_video}}
+                                      {%endif%}
+                                      {{sign.hamnosys}}</p> <!-- <input value='{{sign.hamnosys}}' placeholder='hamnosys'> -->
 
-                            <!-- Left and right controls -->
-                             {%if n_overall > 1%}    
-                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                              <span class="glyphicon glyphicon-chevron-left"></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                              <span class="glyphicon glyphicon-chevron-right"></span>
-                              <span class="sr-only">Next</span>
-                            </a>
+
+                                  {%if sign.labels.region|length != 0%} 
+                                  <p><i>{%for region in sign.labels.regions%}
+                                              {% set n_label = loop.index%}
+                                              {%if n_label == sign.labels.regions|length%}
+                                                      {{region}}
+                                              {%else%}
+                                                      {{region + ', '}}
+                                              {%endif%}
+                                        {%endfor%}
+                                  </i></p>
+                                   {%endif%}
+
+
+                                </div>
+                              </div>
+
+                        {%endfor%}
+                    {%endfor%}
+                </div>
+
+
+                <!-- Left and right controls -->
+                 {%if n_overall > 1%}    
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+                    {%endif%}
+       </div>
+
+  </div>
+
+
+{%if entry.MWEs|length > 0 %} 
+<div class='container'>
+     <div class="card border-warning">
+         <div class="card-body">                                                  
+              <blockquote class="card-blockquote">
+
+
+                 <h4> <a  href="#collapse5" data-toggle="collapse"> Выражения с жестом </a> </h4>
+                 <div id="collapse5" class="collapse">
+                    <div id="myCarousel" class="carousel" data-ride="carousel">
+
+                        <ol class="carousel-indicators">
+
+                            {%for MWE in entry.MWEs%}
+                                {% set n_MWE = loop.index%}
+                                {%if n_MWE==1%}                                       
+                                      <li data-target="#myCarousel" data-slide-to="{{n_MWE}}" class="active"></li>
+                                {%else%}
+                                      <li data-target="#myCarousel" data-slide-to="{{n_MWE}}"></li>
+
                                 {%endif%}
+                            {%endfor%}
+
+
+                        </ol>
+
+
+                        <div class="carousel-inner">
+
+                        {%for MWE in entry.MWEs%} 
+                            {% set n_MWE = loop.index%}
+
+                              {%if n_MWE==1%}                                       
+                                  <div class="item active">
+                               {%else%}
+                                  <div class="item">
+                               {%endif%}
+                                  <div class="embed-responsive embed-responsive-16by9">                   
+                                      <iframe  src="{{MWE.video.url}}" allowfullscreen></iframe>
+                                  </div>
+                                  <div class="carousel-caption">
+                                      {%if MWE.glosses !=[]%}
+                                          {%for gloss in glosses%}
+                                             {%if gloss.entry != ''%}   
+                                               <a href='{{url_for("word", query = gloss.entry)}}'> {{gloss.word}} </a> 
+                                              {%else%}
+                                                <a href='{{url_for("search", query = ref.word)}}'> {{ref.word}}</a>
+                                              {%endif%}
+                                              {%if n_ref != entry.etymology.words_referred|length%}
+                                                {{' '}}
+                                              {%endif%}
+                                          {%endfor%}
+                                      {%endif%}
+
+                                      {%if MWE.MWE_type != ''%}
+                                           {{MWE.MWE_type + ':'}}
+                                      {%endif%}
+
+                                      {%if MWE.translation != ''%}
+                                         <h7>{{MWE.translation}}</h7>
+                                      {%endif%}
+
+                                      {%if MWE.labels.domain != ''%}
+                                           <i> {{lexical_unit.labels.domain + ' '}} </i> 
+                                      {%endif%}
+
+                                      {%if MWE.labels.style != ''%}
+                                          <i> {{lexical_unit.labels.style + ' '}} </i> 
+                                      {%endif%}
+
+                                      {%if MWE.labels.style != ''%}
+                                          <i> {{lexical_unit.labels.regions|join('/ ')}}</i> 
+                                      {%endif%} 
+
+                                    </div>
+                                  </div>
+                            {%endfor%}
+                        </div> 
+
+
+
+                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                      <span class="glyphicon glyphicon-chevron-left"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                      <span class="glyphicon glyphicon-chevron-right"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+
                    </div>
-                   
-              </div>
-            
-          
-            {%if entry.MWEs|length > 0 %} 
-            <div class='container'>
-                 <div class="card border-warning">
-                     <div class="card-body">                                                  
-                          <blockquote class="card-blockquote">
-                              
-                                                     
-                             <h4> <a  href="#collapse5" data-toggle="collapse"> Выражения с жестом </a> </h4>
-                               <div id="collapse5" class="collapse">
-                                    <div id="myCarousel" class="carousel" data-ride="carousel">
-                            
-                                        <ol class="carousel-indicators">
+               </div> 
 
-                                            {%for MWE in entry.MWEs%}
-                                                {% set n_MWE = loop.index%}
-                                                {%if n_MWE==1%}                                       
-                                                      <li data-target="#myCarousel" data-slide-to="{{n_MWE}}" class="active"></li>
-                                                {%else%}
-                                                      <li data-target="#myCarousel" data-slide-to="{{n_MWE}}"></li>
+             </blockquote>
+         </div>
+     </div>
+  </div> 
+ {%endif%}
 
-                                                {%endif%}
-                                            {%endfor%}
-                                                                    
+</div>  
 
-                                        </ol>
+<div class="col-6">   
+    <div class='container'>
+        
+       {# <h4>Запись в системе HamNoSys </h4>
+            <p class=hamnosys></p> #}
 
-                            
-                            <div class="carousel-inner">
-                                                            
-                                {%for MWE in entry.MWEs%} 
-                                    {% set n_MWE = loop.index%}
-                                      
-                                      {%if n_MWE==1%}                                       
-                                          <div class="item active">
-                                       {%else%}
-                                          <div class="item">
-                                       {%endif%}
-                                          <div class="embed-responsive embed-responsive-16by9">                   
-                                              <iframe  src="{{MWE.video.url}}" allowfullscreen></iframe>
-                                          </div>
-                                          <div class="carousel-caption">
-                                              {%if MWE.glosses !=[]%}
-                                                  {%for gloss in glosses%}
-                                                     {%if gloss.entry != ''%}   
-                                                       <a href='{{url_for("word", query = gloss.entry)}}'> {{gloss.word}} </a> 
+        <h4>  Перевод </h4>
+        <div class="card border-light">
+          <div class="card-body">
+              <blockquote class="card-blockquote">
+
+            {%for homograph in entry.homographs%}
+                {% set n_homograph = loop.index%}
+                {%for lexical_unit in homograph.lexical_units%}
+                        {% set n_lu = loop.index%}
+
+                  {{n_homograph ~ '.' ~ n_lu ~ ' '}}
+
+
+                      {%if lexical_unit.part_of_speech != []%}
+                           <h6 class='uppercase'>
+                          {{lexical_unit.part_of_speech|join(', ')}}
+                           </h6>
+                      {%endif%}
+
+
+
+                      {%if lexical_unit.labels.domain != ''%}
+                           <i> {{lexical_unit.labels.domain + ', '}} </i> 
+                      {%endif%}
+                      {%if lexical_unit.labels.style != ''%}
+                          <i> {{lexical_unit.labels.style + ', '}} </i> 
+                      {%endif%}
+                      {%if lexical_unit.labels.style != ''%}
+                          <i> {{lexical_unit.labels.regions|join('/ ')}}</i> 
+                      {%endif%} 
+
+
+                       {{lexical_unit.translation}} 
+
+
+                 {% if lexical_unit.examples != []%}          
+                 <a  href="#collapse4" data-toggle="collapse"> <p align="center"> Примеры </p></a>
+
+                 <div id="collapse4" class="collapse">
+                     <div class='container'>
+                         <div class="card border-info">
+                             <div class="card-body">
+                                  <blockquote class="card-blockquote">
+
+                                      <div id="myCarousel" class="carousel" data-ride="carousel">
+                        <!-- Indicators -->
+                                            <ol class="carousel-indicators">
+
+                                                {%for example in lexical_unit.examples%}
+                                                    {% set n_example = loop.index%}
+
+                                                      {%if n_example==1%}                                       
+                                                          <li data-target="#myCarousel" data-slide-to="{{n_example}}" class="active"></li>
                                                       {%else%}
-                                                        <a href='{{url_for("search", query = ref.word)}}'> {{ref.word}}</a>
+                                                          <li data-target="#myCarousel" data-slide-to="{{n_example}}"></li>
                                                       {%endif%}
-                                                      {%if n_ref != entry.etymology.words_referred|length%}
-                                                        {{' '}}
-                                                      {%endif%}
-                                                  {%endfor%}
-                                              {%endif%}
-                                              
-                                              {%if MWE.MWE_type != ''%}
-                                                   {{MWE.MWE_type + ':'}}
-                                              {%endif%}
-                                              
-                                              {%if MWE.translation != ''%}
-                                                 <h7>{{MWE.translation}}</h7>
-                                              {%endif%}
-                                              
-                                              {%if MWE.labels.domain != ''%}
-                                                   <i> {{lexical_unit.labels.domain + ' '}} </i> 
-                                              {%endif%}
-                                              
-                                              {%if MWE.labels.style != ''%}
-                                                  <i> {{lexical_unit.labels.style + ' '}} </i> 
-                                              {%endif%}
-                                              
-                                              {%if MWE.labels.style != ''%}
-                                                  <i> {{lexical_unit.labels.regions|join('/ ')}}</i> 
-                                              {%endif%} 
-                                              
-                                                                                           
 
-                            
-                                                                                                  
-                                         
-                                            </div>
-                                          </div>
-                                      
-                                   
-                                {%endfor%}
-                            </div> 
-                            
+                                                {%endfor%}                          
 
-                           
-                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                              <span class="glyphicon glyphicon-chevron-left"></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                              <span class="glyphicon glyphicon-chevron-right"></span>
-                              <span class="sr-only">Next</span>
-                            </a>
-                                 
-                   </div>   
+                                            </ol>
 
-                         </blockquote>
-                     </div>
-                 </div>
-              </div> 
-             {%endif%}
-               
-        </div>  
-         
-            <div class="col-3">   
-                <div class='container'> 
-                    
-                    
-                        
-                       {# <h4>Запись в системе HamNoSys </h4>
-                            <p class=hamnosys></p> #}
+                                            <!-- Wrapper for slides -->
+                                            <div class="carousel-inner">
 
-                        <h4>  Перевод </h4>
-                        <div class="card border-light">
-                          <div class="card-body">
-                                <blockquote class="card-blockquote">
-                                    
-                        {%for homograph in entry.homographs%}
-                            {% set n_homograph = loop.index%}
-                            {%for lexical_unit in homograph.lexical_units%}
-                                    {% set n_lu = loop.index%}
-                              
-                              {{n_homograph ~ '.' ~ n_lu ~ ' '}}
-                                  
-                             
-                                  {%if lexical_unit.part_of_speech != []%}
-                                       <h6 class='uppercase'>
-                                      {{lexical_unit.part_of_speech|join(', ')}}
-                                       </h6>
-                                  {%endif%}
-                                  
-                               
-                                 
-                                  {%if lexical_unit.labels.domain != ''%}
-                                       <i> {{lexical_unit.labels.domain + ', '}} </i> 
-                                  {%endif%}
-                                  {%if lexical_unit.labels.style != ''%}
-                                      <i> {{lexical_unit.labels.style + ', '}} </i> 
-                                  {%endif%}
-                                  {%if lexical_unit.labels.style != ''%}
-                                      <i> {{lexical_unit.labels.regions|join('/ ')}}</i> 
-                                  {%endif%} 
-                                  
-                            
-                                   {{lexical_unit.translation}} 
-                                    
-                                    
-                     {% if lexical_unit.examples != []%}          
-                     <a  href="#collapse4" data-toggle="collapse"> <p align="center"> Примеры </p></a>
-                    
-                     <div id="collapse4" class="collapse">
-                         <div class='container'>
-                             <div class="card border-info">
-                                 <div class="card-body">
-                                      <blockquote class="card-blockquote">
-                             
-                                          <div id="myCarousel" class="carousel" data-ride="carousel">
-                            <!-- Indicators -->
-                                                <ol class="carousel-indicators">
-
-                                                    {%for example in lexical_unit.exapmples%}
-                                                        {% set n_example = loop.index%}
-
-                                                          {%if n_example==1%}                                       
-                                                              <li data-target="#myCarousel" data-slide-to="{{n_example}}" class="active"></li>
-                                                          {%else%}
-                                                              <li data-target="#myCarousel" data-slide-to="{{n_example}}"></li>
-                                                          {%endif%}
-
-                                                    {%endfor%}                          
-
-                                                </ol>
-
-                                                <!-- Wrapper for slides -->
-                                                <div class="carousel-inner">
-
-                                                    {%for example in entry.examples%}
-                                                        {% set n_example = loop.index%}
-                                                          {%if n_example==1%}                                       
-                                                              <div class="item active">
-                                                           {%else%}
-                                                              <div class="item">
-                                                           {%endif%}
-
-                                                                  <div class="embed-responsive embed-responsive-16by9">                   
-                                                                      <iframe  src="{{example.video_url}}" allowfullscreen></iframe>
-                                                                  </div>
-                                                                  <div class="carousel-caption">
-                                                                      <h5>{{n_example ~ '.' ~ ' '}}
-                                                                          {{example.glosses|join(' ', attribute = 'word')}}</h5>
-                                                                      <h5>{{example.translation}}</h5>
-                                                                      <a href ='{{example.source}}'>Источник примера</a>
-
-                                                                  </div>
-
-                                                  </div>
-
-
-                                                    {%endfor%}
-                                                </div>
-
-
-                                                <!-- Left and right controls -->
-                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                                  <span class="glyphicon glyphicon-chevron-left"></span>
-                                                  <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                                                  <span class="glyphicon glyphicon-chevron-right"></span>
-                                                  <span class="sr-only">Next</span>
-                                                </a>
-
-
-
-
-                                         
-                                     </blockquote>
-                                 </div>
-                             </div>
-                         </div>
-                     </div> 
-                     {%endif%}
-                                 
-                     {% if lexical_unit.inflected_forms != []%}                     
-                        <a  href="#collapse2" data-toggle="collapse"> <p align="center">Формы жеста </a>
-                    
-                     <div id="collapse2" class="collapse">
-                         
-                             <div class="card border-info">
-                                 <div class="card-body">
-                                     <blockquote class="card-blockquote">
-
-                                         <div id="myCarousel" class="carousel" data-ride="carousel">
-                            <!-- Indicators -->
-                                                <ol class="carousel-indicators">
-
-                                                    {%for form in lexical_unit.inflected_forms%}
-                                                        {% set n_form = loop.index%}
-
-                                                          {%if n_form==1%}                                       
-                                                              <li data-target="#myCarousel" data-slide-to="{{n_form}}" class="active"></li>
-                                                          {%else%}
-                                                              <li data-target="#myCarousel" data-slide-to="{{n_form}}"></li>
-                                                          {%endif%}
-
-                                                    {%endfor%}                          
-
-                                                </ol>
-
-                                                <!-- Wrapper for slides -->
-                                                <div class="carousel-inner">
-                                                {%if lexical_unit.inflected_forms != []%} 
-                                                {%for form in lexical_unit.inflected_forms%}
-                                                     {% set n_form = loop.index%}
-                                                      {%if n_form==1%}                                       
+                                                {%for example in lexical_unit.examples%}
+                                                    {% set n_example = loop.index%}
+                                                      {%if n_example==1%}                                       
                                                           <div class="item active">
                                                        {%else%}
                                                           <div class="item">
                                                        {%endif%}
 
                                                               <div class="embed-responsive embed-responsive-16by9">                   
-                                                                  <iframe  src="{{form.video_url}}" allowfullscreen></iframe>
+                                                                  <iframe  src="{{example.video_url}}" allowfullscreen></iframe>
                                                               </div>
                                                               <div class="carousel-caption">
-                                                                  {%if form.glosses != []%}
-                                                                      <h5>{{form.glosses|join(' ', attribute = 'word')}}</h5> 
-                                                                  {%endif%}
-                                                                  {%if form.translation != '' %}
-                                                                      <h5>{{form.translation}}</h5>
-                                                                  {%endif%}
-                                                                  {%if form.grammatical_label != ''%}
-                                                                      <h5>{{form.grammatical_label}}</h5>
-                                                                  {%endif%}
+                                                                  <h5>{{n_example ~ '.' ~ ' '}}
+                                                                      {{example.glosses|join(' ', attribute = 'word')}}</h5>
+                                                                  <h5>{{example.translation}}</h5>
+                                                                  <a href ='{{example.source}}'>Источник примера</a>
 
                                                               </div>
 
-                                                          </div>
+                                              </div>
 
 
                                                 {%endfor%}
-                                                {%endif%}              
-                                                </div>
+                                            </div>
 
 
-                                                <!-- Left and right controls -->
-                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                                  <span class="glyphicon glyphicon-chevron-left"></span>
-                                                  <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                                                  <span class="glyphicon glyphicon-chevron-right"></span>
-                                                  <span class="sr-only">Next</span>
-                                                </a>
+                                            <!-- Left and right controls -->
+                                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                              <span class="glyphicon glyphicon-chevron-left"></span>
+                                              <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                              <span class="glyphicon glyphicon-chevron-right"></span>
+                                              <span class="sr-only">Next</span>
+                                            </a>
 
 
-                                     </blockquote>
-                                
+
+
+                                    
+                                 </blockquote>
                              </div>
                          </div>
                      </div>
-                                 
-                     {%endif%}
-                               
-                    
-                      
-                             
-                      </div>
-                  
+                 </div> 
+                 {%endif%}
 
-                              
-                            {%endfor%}
-                        {%endfor%}    
-                    
-                    
-                    
-                     
-                        {%if entry.etymology.text != '' or entry.etymology.words_referred != []%}
-                                    <h4><a  href="#collapse3" data-toggle="collapse"> Этимология </a></h4>
-                       
-                         <div id="collapse3" class="collapse">
-                            {%if entry.etymology.text != ''%}
-                                {{entry.etymology.text}}
-                            {%endif%} 
-                             
-                            {%if entry.etymology.words_referred != []%} 
-                            <p>см.
-                                {%for ref in entry.etymology.words_referred%}
-                                     {% set n_ref = loop.index%}
-                                    {%if ref.entry != ''%}   
-                                            <a href='{{url_for("word", query = ref.entry)}}'> {{ref.word}} </a> 
-                                        
-                                        {%else%}
-                                            <a href='{{url_for("search", query = ref.word)}}'> {{ref.word}}</a>
-                                        {%endif%}
-                                        {%if n_ref != entry.etymology.words_referred|length%}
-                                            {{', '}}
-                                    {%endif%}
-                                       
-                                
-                                   
-                                    
-                                {%endfor%} 
-                            </p>
-                             {%endif%}
+                 {% if lexical_unit.inflected_forms != []%}                     
+                    <a  href="#collapse2" data-toggle="collapse"> <p align="center">Формы жеста </a>
+
+                 <div id="collapse2" class="collapse">
+
+                         <div class="card border-info">
+                             <div class="card-body">
+                                 <blockquote class="card-blockquote">
+
+                                     <div id="myCarousel" class="carousel" data-ride="carousel">
+                        <!-- Indicators -->
+                                            <ol class="carousel-indicators">
+
+                                                {%for form in lexical_unit.inflected_forms%}
+                                                    {% set n_form = loop.index%}
+
+                                                      {%if n_form==1%}                                       
+                                                          <li data-target="#myCarousel" data-slide-to="{{n_form}}" class="active"></li>
+                                                      {%else%}
+                                                          <li data-target="#myCarousel" data-slide-to="{{n_form}}"></li>
+                                                      {%endif%}
+
+                                                {%endfor%}                          
+
+                                            </ol>
+
+                                            <!-- Wrapper for slides -->
+                                            <div class="carousel-inner">
+                                            {%if lexical_unit.inflected_forms != []%} 
+                                            {%for form in lexical_unit.inflected_forms%}
+                                                 {% set n_form = loop.index%}
+                                                  {%if n_form==1%}                                       
+                                                      <div class="item active">
+                                                   {%else%}
+                                                      <div class="item">
+                                                   {%endif%}
+
+                                                          <div class="embed-responsive embed-responsive-16by9">                   
+                                                              <iframe  src="{{form.video_url}}" allowfullscreen></iframe>
+                                                          </div>
+                                                          <div class="carousel-caption">
+                                                              {%if form.glosses != []%}
+                                                                  <h5>{{form.glosses|join(' ', attribute = 'word')}}</h5> 
+                                                              {%endif%}
+                                                              {%if form.translation != '' %}
+                                                                  <h5>{{form.translation}}</h5>
+                                                              {%endif%}
+                                                              {%if form.grammatical_label != ''%}
+                                                                  <h5>{{form.grammatical_label}}</h5>
+                                                              {%endif%}
+
+                                                          </div>
+
+                                                      </div>
+
+
+                                            {%endfor%}
+                                            {%endif%}              
+                                            </div>
+
+
+                                            <!-- Left and right controls -->
+                                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                              <span class="glyphicon glyphicon-chevron-left"></span>
+                                              <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                              <span class="glyphicon glyphicon-chevron-right"></span>
+                                              <span class="sr-only">Next</span>
+                                            </a>
+
+
+                                 </blockquote>
+
                          </div>
-                         
-
-                      
                      </div>
-                       {%endif%}
+                 </div>
 
-          {% endblock %}
+                 {%endif%}
 
-                             
-                             
+
+
+
+                  </div>
+
+
+
+            {%endfor%}
+        {%endfor%}    
+
+
+
+
+            {%if entry.etymology.text != '' or entry.etymology.words_referred != []%}
+                        <h4><a  href="#collapse3" data-toggle="collapse"> Этимология </a></h4>
+
+             <div id="collapse3" class="collapse">
+                {%if entry.etymology.text != ''%}
+                    {{entry.etymology.text}}
+                {%endif%} 
+
+                {%if entry.etymology.words_referred != []%} 
+                <p>см.
+                    {%for ref in entry.etymology.words_referred%}
+                         {% set n_ref = loop.index%}
+                        {%if ref.entry != ''%}   
+                                <a href='{{url_for("word", query = ref.entry)}}'> {{ref.word}} </a> 
+
+                            {%else%}
+                                <a href='{{url_for("search", query = ref.word)}}'> {{ref.word}}</a>
+                            {%endif%}
+                            {%if n_ref != entry.etymology.words_referred|length%}
+                                {{', '}}
+                        {%endif%}
+
+                    {%endfor%} 
+                </p>
+                 {%endif%}
+             </div>
+
+
+
+         </div>
+           {%endif%}
+
+{% endblock %}
